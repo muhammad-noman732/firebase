@@ -3,11 +3,13 @@ import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { useDispatch, useSelector } from 'react-redux';
 import { login } from '../../store/features/authSlice';
+import { useNavigate } from 'react-router-dom';
 
 
 const LoginPage = () => {
   const { user, error, loading } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const validationSchema = Yup.object({
     email: Yup.string().required("Email is required").email("Must be a valid email"),
@@ -22,8 +24,8 @@ const LoginPage = () => {
     validationSchema,
     onSubmit: async (values, { resetForm }) => {
       console.log("values " , values);
-      
       const result = await dispatch(login(values));
+      navigate('/dashboard')
       if (login.fulfilled.match(result)) {
         resetForm();
       }

@@ -4,6 +4,7 @@ import { setDoc, doc, getDoc  } from "firebase/firestore";
 import { auth } from "../../config/firebase";
 import { db } from "../../config/firebase";
 
+
 export const signup = createAsyncThunk(
   "/auth/signup",
   async (user, { rejectWithValue }) => {
@@ -66,7 +67,7 @@ export const login = createAsyncThunk("/auth/login",
 );
 
 // logout 
-const logout = createAsyncThunk('/auth/logout' ,
+export const logout = createAsyncThunk('/auth/logout' ,
      async(_ , {rejectWithValue})=>{
 
       try {
@@ -84,45 +85,21 @@ const logout = createAsyncThunk('/auth/logout' ,
 
 //  get current user detail
 
-export const getCurrentUser = createAsyncThunk("/auth/getcurrentuser" ,
-     async(setLoading ,store )=>{
-        
-      onAuthStateChanged(auth, async(user) => {
 
-        try {
-          
-          setLoading(true)
-          if (user) {
-            const uid = user.uid;
-             console.log('user' , user);
-             console.log("uid" , uid);
-             // User is signed in, see docs for a list of available properties
-             const docSnap = await getDoc(doc(db ,"users" , uid));
-             const dbUser = docSnap?.data();
-             store.dispatch(setState(dbUser))
-  
-          } else {
-               setLoading(false)
-          }
-        } catch (error) {
-            console.log("error" , error.message);
-            return error.message
-        }
-    
-      });
-     }
-)
 const authSlice = createSlice({
   name: "auth",
   initialState: {
     user: null,
     error: null,
     loading: false,
+    authChecked: false, // Flag to track Firebase auth state check
   },
-  reducer: {
-     setState : (state ,action)=>{
-         state.user = action.payload
-     }
+  reducers: {
+    setUserState: (state, action) => {
+      console.log("setUserState reducer called" , action.payload);
+      state.user = action.payload;
+      state.authChecked = true;
+    },
   },
 
   extraReducers: (builder) => {
@@ -171,8 +148,10 @@ const authSlice = createSlice({
       state.error = false;
       state.user = null;
     });
+
   },
 
 });
 
+export const {setUserState} = authSlice.actions
 export default authSlice.reducer;
