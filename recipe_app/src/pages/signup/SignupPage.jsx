@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { signup } from '../../store/features/authSlice';
 import * as Yup from 'yup'
 import { Formik, useFormik } from 'formik';
+import { useNavigate } from 'react-router-dom';
 
 const SignupPage = () => {
 //   const [userName, setUserName] = useState("");
@@ -14,8 +15,7 @@ const SignupPage = () => {
 
  const {user , error , loading } = useSelector(state => state.auth)
  const dispatch = useDispatch();
-
-
+ const navigate = useNavigate()
   const validationSchema = Yup.object(
     {
         userName: Yup.string()
@@ -44,9 +44,11 @@ const SignupPage = () => {
 
     onSubmit :  async(values ,{resetForm})=>{
                console.log("values" , values);     
-               const result =  await  dispatch(signup(values))
+               const result =  await  dispatch(signup(values));
+               
                if (signup.fulfilled.match(result)) {
-                console.log('Signup success ✅', result.payload); 
+                console.log('Signup success ✅', result.payload);
+                navigate("/dashboard")
                 resetForm(); // This resets all fields and touched state
                }
     }

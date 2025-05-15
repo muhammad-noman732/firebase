@@ -11,10 +11,11 @@ import Home from '../pages/home/Home'
 import { useSelector } from 'react-redux'
 import { Navigate } from 'react-router-dom'
 import LoadingSpinner from '../components/LoadingSpinner'
+import SingleRecipe from '../pages/singleRcipe/SingleRecipe'
 
 const Routing = () => {
   
-  const { user, authChecked } = useSelector((state) => state.auth);
+  const { user , authChecked } = useSelector((state) => state.auth);
   if (!authChecked) return <p><LoadingSpinner/></p>; 
   return (
     <>
@@ -25,6 +26,7 @@ const Routing = () => {
         element={user ? <Navigate to="/dashboard" replace /> : <LoginPage />}
       />
       <Route path="/signup" element={<SignupPage />} />
+      <Route path="/recipe/:id" element={<SingleRecipe/>} />
 
       <Route
         path="/dashboard"

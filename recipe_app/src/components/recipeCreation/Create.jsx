@@ -7,6 +7,7 @@ import { useNavigate } from 'react-router-dom';
 
 const Create = () => {
  
+  
   const [imageUrl, setImageUrl] = useState('');
   const inputRef = useRef(); // for reseting image after successful upload
   const dispatch = useDispatch();

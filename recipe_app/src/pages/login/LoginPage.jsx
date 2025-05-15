@@ -3,7 +3,7 @@ import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { useDispatch, useSelector } from 'react-redux';
 import { login } from '../../store/features/authSlice';
-import { useNavigate } from 'react-router-dom';
+import { Navigate, useNavigate } from 'react-router-dom';
 
 
 const LoginPage = () => {
@@ -86,7 +86,9 @@ const LoginPage = () => {
 
         <p className="text-sm text-center text-gray-600 mt-4">
           Don’t have an account?{" "}
-          <span className="text-indigo-600 font-medium cursor-pointer hover:underline">Sign up</span>
+          <span
+          onClick={()=>{navigate('/signup')}}
+           className="text-indigo-600 font-medium cursor-pointer hover:underline">Sign up</span>
         </p>
       </form>
     </div>

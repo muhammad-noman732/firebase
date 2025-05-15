@@ -1,17 +1,26 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
 
 const RecipeCard = ({ recipe }) => {
-  return (
-    <div className="bg-white shadow-lg rounded-lg overflow-hidden p-4 max-w-xs mx-auto transform transition-transform hover:scale-105 hover:shadow-2xl">
+
+  const {loading , error , user} = useSelector(state => state.auth);
+   console.log('user in card ' , user);
+   
+
+   return (
+    <div className="relative w-full max-w-xs mx-auto overflow-hidden rounded-xl shadow-lg transform transition-transform hover:scale-105">
       {/* Recipe Image */}
       <img
         src={recipe.image}
         alt={recipe.name}
-        className="w-full h-48 object-cover rounded-md mb-4"
+        className="w-full h-52 object-cover rounded-t-xl"
       />
 
-      {/* Recipe Name */}
-      <h2 className="text-xl font-semibold text-gray-800">{recipe.name}</h2>
+      {/* Dark Overlay with Text */}
+      <div className="absolute bottom-0 w-full bg-gradient-to-t from-black/70 to-transparent px-4 py-3 rounded-b-xl">
+        <h2 className="text-white text-center text-lg font-medium">{recipe.name}</h2>
+      </div>
+
     </div>
   );
 };
